@@ -1,7 +1,10 @@
 import { createYoga, createSchema } from 'graphql-yoga'
-import { PrismaClient } from '@/generated/prisma'
+import { PrismaClient } from '@prisma/client'
 
 export const runtime = 'nodejs'
+declare global {
+  var __prisma: PrismaClient | undefined
+}
 
 const prisma = (globalThis as any).__prisma ?? new PrismaClient()
 if (process.env.NODE_ENV !== 'production') (globalThis as any).__prisma = prisma
@@ -39,8 +42,10 @@ const resolvers = {
 }
 
 const schema = createSchema({ typeDefs, resolvers })
-const { handleRequest } = createYoga({
-  schema,
-  graphqlEndpoint: '/api/graphql',
-})
-export { handleRequest as GET, handleRequest as POST }
+const yoga = createYoga({ schema, graphqlEndpoint: '/api/graphql' })
+export function GET(request: Request) {
+  return yoga.fetch(request)
+}
+export function POST(request: Request) {
+  return yoga.fetch(request)
+}

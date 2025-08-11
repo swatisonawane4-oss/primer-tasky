@@ -1,21 +1,34 @@
 @"
-# Primer Tasky
+# Primer Tasky (0→1 sample)
 
-Tiny 0→1 app using **TypeScript + Next.js (App Router) + GraphQL (Yoga) + Prisma + PostgreSQL**.
+Tiny end-to-end app using **TypeScript + Next.js (App Router) + GraphQL (Yoga) + Prisma + PostgreSQL**.
 
 ## Run locally
-1) Set DB: \`.env\`  
-   \`DATABASE_URL=postgresql://primer:primerpw@localhost:5433/primer_tasky\`
-2) Migrate: \`npx prisma migrate dev\`
-3) Dev server: \`npm run dev\` → http://localhost:3000
+1) Create \`.env\`:
+\`\`\`
+DATABASE_URL=postgresql://primer:primerpw@localhost:5434/primer_tasky
+\`\`\`
+2) Apply schema:
+\`\`\`
+npx prisma migrate dev
+\`\`\`
+3) Start dev:
+\`\`\`
+npm run dev
+\`\`\`
 
-## GraphQL
-- Endpoint: \`/api/graphql\`
-- Example:
-  - \`mutation { addTask(title: "Try Primer") { id title done } }\`
-  - \`query { tasks { id title done } }\`
+- GraphQL IDE: \`/api/graphql\`
+  - Examples:
+    \`\`\`
+    mutation { addTask(title: "Try Primer") { id title done } }
+    query { tasks { id title done } }
+    \`\`\`
+- UI: \`/\` (add / toggle / delete tasks)
 
 ## Notes
-- Prisma Client import from \`@/generated/prisma\`
-- Minimal UI: add / toggle / delete tasks
+- Prisma Client import: \`@prisma/client\`
+- Key files: \`prisma/schema.prisma\`, \`src/app/api/graphql/route.ts\`, \`src/app/page.tsx\`
+
+## Proof of work
+- Brief build log + architecture notes in \`/docs\`
 "@ | Set-Content -Encoding UTF8 README.md
