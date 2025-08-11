@@ -1,10 +1,7 @@
 import { createYoga, createSchema } from 'graphql-yoga'
-import { NextRequest } from 'next/server'
 import { PrismaClient } from '@/generated/prisma'
+export const runtime = 'nodejs'
 
-export const runtime = 'nodejs' // ensure Prisma runs in the Node runtime
-
-// Reuse Prisma in dev to avoid too many connections on hot reload
 const prisma = (globalThis as any).__prisma ?? new PrismaClient()
 if (process.env.NODE_ENV !== 'production') (globalThis as any).__prisma = prisma
 
@@ -17,7 +14,6 @@ const typeDefs = /* GraphQL */ `
     deleteTask(id: ID!): Boolean!
   }
 `
-
 const resolvers = {
   Query: {
     tasks: () => prisma.task.findMany({ orderBy: { createdAt: 'desc' } }),
@@ -41,14 +37,9 @@ const resolvers = {
 }
 
 const schema = createSchema({ typeDefs, resolvers })
-const yoga = createYoga<{ req: NextRequest }>({
+const yoga = createYoga({
   schema,
   graphqlEndpoint: '/api/graphql',
 })
-
-export async function GET(request: NextRequest) {
-  return yoga.handleRequest(request)
-}
-export async function POST(request: NextRequest) {
-  return yoga.handleRequest(request)
-}
+export async function GET(request: Request) { return yoga.handleRequest(request) }
+export async function POST(request: Request) { return yoga.handleRequest(request) }
