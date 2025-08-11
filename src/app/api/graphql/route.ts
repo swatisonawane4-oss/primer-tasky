@@ -1,5 +1,6 @@
 import { createYoga, createSchema } from 'graphql-yoga'
 import { PrismaClient } from '@/generated/prisma'
+
 export const runtime = 'nodejs'
 
 const prisma = (globalThis as any).__prisma ?? new PrismaClient()
@@ -14,6 +15,7 @@ const typeDefs = /* GraphQL */ `
     deleteTask(id: ID!): Boolean!
   }
 `
+
 const resolvers = {
   Query: {
     tasks: () => prisma.task.findMany({ orderBy: { createdAt: 'desc' } }),
@@ -37,9 +39,8 @@ const resolvers = {
 }
 
 const schema = createSchema({ typeDefs, resolvers })
-const yoga = createYoga({
+const { handleRequest } = createYoga({
   schema,
   graphqlEndpoint: '/api/graphql',
 })
-export async function GET(request: Request) { return yoga.handleRequest(request) }
-export async function POST(request: Request) { return yoga.handleRequest(request) }
+export { handleRequest as GET, handleRequest as POST }
