@@ -1,34 +1,20 @@
-@"
-# Primer Tasky (0→1 sample)
+# Primer Tasky (0→1)
 
-Tiny end-to-end app using **TypeScript + Next.js (App Router) + GraphQL (Yoga) + Prisma + PostgreSQL**.
+Tiny end-to-end app aligned with Primer’s stack.  
+**Tech:** TypeScript · Next.js (App Router) · GraphQL (Yoga) · Prisma · PostgreSQL
 
-## Run locally
-1) Create \`.env\`:
-\`\`\`
-DATABASE_URL=postgresql://primer:primerpw@localhost:5434/primer_tasky
-\`\`\`
-2) Apply schema:
-\`\`\`
+## Quickstart
+```bash
+# deps
+npm install
+
+# env (local Postgres on 5434)
+echo DATABASE_URL=postgresql://primer:primerpw@localhost:5434/primer_tasky > .env
+
+# db + prisma
 npx prisma migrate dev
-\`\`\`
-3) Start dev:
-\`\`\`
+
+# run
 npm run dev
-\`\`\`
+# UI: http://localhost:3000   GraphQL: http://localhost:3000/api/graphql
 
-- GraphQL IDE: \`/api/graphql\`
-  - Examples:
-    \`\`\`
-    mutation { addTask(title: "Try Primer") { id title done } }
-    query { tasks { id title done } }
-    \`\`\`
-- UI: \`/\` (add / toggle / delete tasks)
-
-## Notes
-- Prisma Client import: \`@prisma/client\`
-- Key files: \`prisma/schema.prisma\`, \`src/app/api/graphql/route.ts\`, \`src/app/page.tsx\`
-
-## Proof of work
-- Brief build log + architecture notes in \`/docs\`
-"@ | Set-Content -Encoding UTF8 README.md
