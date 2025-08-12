@@ -1,20 +1,28 @@
-# Primer Tasky (0→1)
+# TaskDeck(0→1)
 
-Tiny end-to-end app aligned with Primer’s stack.  
 **Tech:** TypeScript · Next.js (App Router) · GraphQL (Yoga) · Prisma · PostgreSQL
 
-## Quickstart
+
+## Features
+- Add / list / toggle / delete tasks
+- GraphQL API backed by Prisma
+- Minimal Next.js UI wired to the GraphQL endpoint
+
+## Requirements
+- **Node.js ≥ 18.18** (LTS recommended; Node 22 works)
+- **PostgreSQL** (local or Docker)
+
+## Quick Start
+
+### 1) Install deps
 ```bash
-# deps
 npm install
 
-# env (local Postgres on 5434)
-echo DATABASE_URL=postgresql://primer:primerpw@localhost:5434/primer_tasky > .env
+2) Create .env
+DATABASE_URL=postgresql://taskdeck:TaskDeckPW1!@localhost:5434/task_deck
 
-# db + prisma
+3) Set up the DB
 npx prisma migrate dev
 
-# run
+4) Start
 npm run dev
-# UI: http://localhost:3000   GraphQL: http://localhost:3000/api/graphql
-
